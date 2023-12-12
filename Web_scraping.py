@@ -21,7 +21,8 @@ https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM63KG-------
 https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM63KG--------------8FNL000600--.pdf
 https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM63KG--------------QFNL000400--.pdf
 https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXMO92KG-------------------------.pdf
-https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXM92KG--------------------------.pdf"""
+https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXM92KG--------------------------.pdf
+https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXMO92KG-------------SFNL000200--.pdf"""
 
 
 men_weight_array=["51", "57", "63", "71", "80", "92", "092"]
@@ -37,59 +38,114 @@ for weight in men_weight_array:
     counter_16=1
     counter_quarters=1
     counter_semi=1
-    # PRELIMINARIES 32 ########################
-    for _ in range(16):
-        if counter_32!=17:
-            if counter_32<10:
-                counter_url="0"+str(counter_32)
-            else:
-                counter_url= str(counter_32)
-            url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------R32-00'+ counter_url+"00--.pdf"
-            response=requests.get(url, headers=headers)
-            if response.status_code==200:
-                with open(base_path+'H\\'+weight+'\\P32\\'+counter_url+'.pdf', 'wb') as f:
-                    f.write(response.content)
-            counter_32+=1
-    # PRELIMINARIES 16 #######################
-    for _ in range(8):
-        if counter_16!=9:
-            counter_url= "0"+str(counter_16)
-            url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------8FNL00'+ counter_url+"00--.pdf"
-            response=requests.get(url, headers=headers)
-            if response.status_code==200:
-                with open(base_path+'H\\'+weight+'\\P16\\'+counter_url+'.pdf', 'wb') as f:
-                    f.write(response.content)
-            counter_16+=1
-    # QUARTER FINALS #########################
-    for _ in range(4):
-        if counter_quarters!=5:
-            counter_url= "0"+str(counter_quarters)
-            url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------QFNL00'+ counter_url+"00--.pdf"
-            response=requests.get(url, headers=headers)
-            if response.status_code==200:
-                with open(base_path+'H\\'+weight+'\\Q\\'+counter_url+'.pdf', 'wb') as f:
-                    f.write(response.content)
-            counter_quarters+=1
-    # SEMIFINALS #############################
-    for _ in range(8):
-        if counter_semi!=3:
-            counter_url= "0"+str(counter_semi)
-            url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------SFNL00'+ counter_url+"00--.pdf"
-            response=requests.get(url, headers=headers)
-            if response.status_code==200:
-                with open(base_path+'H\\'+weight+'\\SF\\'+counter_url+'.pdf', 'wb') as f:
-                    f.write(response.content)
-            counter_semi+=1
-    #FINALS #################################
-    url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------FNL-000100--.pdf'
-    response=requests.get(url, headers=headers)
-    with open(base_path+'H\\'+weight+'\\F\\01.pdf', 'wb') as f:
-        f.write(response.content)
-    # ENTRY LIST ############################
-    url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXM'+weight+'KG--------------------------.pdf'
-    response=requests.get(url, headers=headers)
-    with open(base_path+'H\\'+weight+'\\Entry_list\\Entry_list.pdf', 'wb') as f:
-        f.write(response.content)
+    if weight != "092":
+        # PRELIMINARIES 32 ########################
+        for _ in range(16):
+            if counter_32!=17:
+                if counter_32<10:
+                    counter_url="0"+str(counter_32)
+                else:
+                    counter_url= str(counter_32)
+                url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------R32-00'+ counter_url+"00--.pdf"
+                response=requests.get(url, headers=headers)
+                if response.status_code==200:
+                    with open(base_path+'H\\'+weight+'\\P32\\'+counter_url+'.pdf', 'wb') as f:
+                        f.write(response.content)
+                counter_32+=1
+        # PRELIMINARIES 16 #######################
+        for _ in range(8):
+            if counter_16!=9:
+                counter_url= "0"+str(counter_16)
+                url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------8FNL00'+ counter_url+"00--.pdf"
+                response=requests.get(url, headers=headers)
+                if response.status_code==200:
+                    with open(base_path+'H\\'+weight+'\\P16\\'+counter_url+'.pdf', 'wb') as f:
+                        f.write(response.content)
+                counter_16+=1
+        # QUARTER FINALS #########################
+        for _ in range(4):
+            if counter_quarters!=5:
+                counter_url= "0"+str(counter_quarters)
+                url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------QFNL00'+ counter_url+"00--.pdf"
+                response=requests.get(url, headers=headers)
+                if response.status_code==200:
+                    with open(base_path+'H\\'+weight+'\\Q\\'+counter_url+'.pdf', 'wb') as f:
+                        f.write(response.content)
+                counter_quarters+=1
+        # SEMIFINALS #############################
+        for _ in range(8):
+            if counter_semi!=3:
+                counter_url= "0"+str(counter_semi)
+                url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------SFNL00'+ counter_url+"00--.pdf"
+                response=requests.get(url, headers=headers)
+                if response.status_code==200:
+                    with open(base_path+'H\\'+weight+'\\SF\\'+counter_url+'.pdf', 'wb') as f:
+                        f.write(response.content)
+                counter_semi+=1
+        #FINALS #################################
+        url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------FNL-000100--.pdf'
+        response=requests.get(url, headers=headers)
+        with open(base_path+'H\\'+weight+'\\F\\01.pdf', 'wb') as f:
+            f.write(response.content)
+        # ENTRY LIST ############################
+        url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXM'+weight+'KG--------------------------.pdf'
+        response=requests.get(url, headers=headers)
+        with open(base_path+'H\\'+weight+'\\Entry_list\\Entry_list.pdf', 'wb') as f:
+            f.write(response.content)
+    else:
+        # PRELIMINARIES 32 ########################
+        for _ in range(16):
+            if counter_32!=17:
+                if counter_32<10:
+                    counter_url="0"+str(counter_32)
+                else:
+                    counter_url= str(counter_32)
+                url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------R32-00'+ counter_url+"00--.pdf"
+                response=requests.get(url, headers=headers)
+                if response.status_code==200:
+                    with open(base_path+'H\\'+weight+'\\P32\\'+counter_url+'.pdf', 'wb') as f:
+                        f.write(response.content)
+                counter_32+=1
+        # PRELIMINARIES 16 #######################
+        for _ in range(8):
+            if counter_16!=9:
+                counter_url= "0"+str(counter_16)
+                url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------8FNL00'+ counter_url+"00--.pdf"
+                response=requests.get(url, headers=headers)
+                if response.status_code==200:
+                    with open(base_path+'H\\'+weight+'\\P16\\'+counter_url+'.pdf', 'wb') as f:
+                        f.write(response.content)
+                counter_16+=1
+        # QUARTER FINALS #########################
+        for _ in range(4):
+            if counter_quarters!=5:
+                counter_url= "0"+str(counter_quarters)
+                url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------QFNL00'+ counter_url+"00--.pdf"
+                response=requests.get(url, headers=headers)
+                if response.status_code==200:
+                    with open(base_path+'H\\'+weight+'\\Q\\'+counter_url+'.pdf', 'wb') as f:
+                        f.write(response.content)
+                counter_quarters+=1
+        # SEMIFINALS #############################
+        for _ in range(8):
+            if counter_semi!=3:
+                counter_url= "0"+str(counter_semi)
+                url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------SFNL00'+ counter_url+"00--.pdf"
+                response=requests.get(url, headers=headers)
+                if response.status_code==200:
+                    with open(base_path+'H\\'+weight+'\\SF\\'+counter_url+'.pdf', 'wb') as f:
+                        f.write(response.content)
+                counter_semi+=1
+        #FINALS #################################
+        url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------FNL-000100--.pdf'
+        response=requests.get(url, headers=headers)
+        with open(base_path+'H\\'+weight+'\\F\\01.pdf', 'wb') as f:
+            f.write(response.content)
+        # ENTRY LIST ############################
+        url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXM'+weight+'KG-------------------------.pdf'
+        response=requests.get(url, headers=headers)
+        with open(base_path+'H\\'+weight+'\\Entry_list\\Entry_list.pdf', 'wb') as f:
+            f.write(response.content)
 
 ############################################################### WOMEN ################################################################################
 
