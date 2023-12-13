@@ -22,10 +22,15 @@ https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM63KG-------
 https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM63KG--------------QFNL000400--.pdf
 https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXMO92KG-------------------------.pdf
 https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXM92KG--------------------------.pdf
-https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXMO92KG-------------SFNL000200--.pdf"""
+https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXMO92KG-------------SFNL000200--.pdf
+https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXMO92KG-------------R32-000700--.pdf
+https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXMO92KG-------------8FNL000300--.pdf
+https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXMO92KG-------------QFNL000100--.pdf
+https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXMO92KG-------------SFNL000100--.pdf
+https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXMO92KG-------------FNL-000100--.pdf"""
 
 
-men_weight_array=["51", "57", "63", "71", "80", "92", "092"]
+men_weight_array=["092", "51", "57", "63", "71", "80", "92"]
 women_weight_array=["50", "54", "57", "60", "66", "75"]
 
 
@@ -47,7 +52,9 @@ for weight in men_weight_array:
                 else:
                     counter_url= str(counter_32)
                 url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------R32-00'+ counter_url+"00--.pdf"
+                print("Sending request")
                 response=requests.get(url, headers=headers)
+                print("Received response "+ weight +" from "+ url)
                 if response.status_code==200:
                     with open(base_path+'H\\'+weight+'\\P32\\'+counter_url+'.pdf', 'wb') as f:
                         f.write(response.content)
@@ -57,7 +64,9 @@ for weight in men_weight_array:
             if counter_16!=9:
                 counter_url= "0"+str(counter_16)
                 url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------8FNL00'+ counter_url+"00--.pdf"
+                print("Sending request")
                 response=requests.get(url, headers=headers)
+                print("Received response "+ weight +" from "+ url)
                 if response.status_code==200:
                     with open(base_path+'H\\'+weight+'\\P16\\'+counter_url+'.pdf', 'wb') as f:
                         f.write(response.content)
@@ -67,7 +76,9 @@ for weight in men_weight_array:
             if counter_quarters!=5:
                 counter_url= "0"+str(counter_quarters)
                 url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------QFNL00'+ counter_url+"00--.pdf"
+                print("Sending request")
                 response=requests.get(url, headers=headers)
+                print("Received response "+ weight +" from "+ url)
                 if response.status_code==200:
                     with open(base_path+'H\\'+weight+'\\Q\\'+counter_url+'.pdf', 'wb') as f:
                         f.write(response.content)
@@ -77,22 +88,29 @@ for weight in men_weight_array:
             if counter_semi!=3:
                 counter_url= "0"+str(counter_semi)
                 url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------SFNL00'+ counter_url+"00--.pdf"
+                print("Sending request")
                 response=requests.get(url, headers=headers)
+                print("Received response "+ weight +" from "+ url)
                 if response.status_code==200:
                     with open(base_path+'H\\'+weight+'\\SF\\'+counter_url+'.pdf', 'wb') as f:
                         f.write(response.content)
                 counter_semi+=1
         #FINALS #################################
         url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG--------------FNL-000100--.pdf'
+        print("Sending request")
         response=requests.get(url, headers=headers)
+        print("Received response "+ weight +" from "+ url)
         with open(base_path+'H\\'+weight+'\\F\\01.pdf', 'wb') as f:
             f.write(response.content)
         # ENTRY LIST ############################
         url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXM'+weight+'KG--------------------------.pdf'
+        print("Sending request")
         response=requests.get(url, headers=headers)
+        print("Received response "+ weight +" from "+ url)
         with open(base_path+'H\\'+weight+'\\Entry_list\\Entry_list.pdf', 'wb') as f:
             f.write(response.content)
-    else:
+    elif weight == "092":
+        print(" ESTAMOS DENTRO ")
         # PRELIMINARIES 32 ########################
         for _ in range(16):
             if counter_32!=17:
@@ -101,7 +119,9 @@ for weight in men_weight_array:
                 else:
                     counter_url= str(counter_32)
                 url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------R32-00'+ counter_url+"00--.pdf"
+                print("Sending request +92")
                 response=requests.get(url, headers=headers)
+                print("Received response +92 from "+ url)
                 if response.status_code==200:
                     with open(base_path+'H\\'+weight+'\\P32\\'+counter_url+'.pdf', 'wb') as f:
                         f.write(response.content)
@@ -111,7 +131,9 @@ for weight in men_weight_array:
             if counter_16!=9:
                 counter_url= "0"+str(counter_16)
                 url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------8FNL00'+ counter_url+"00--.pdf"
+                print("Sending request +92")
                 response=requests.get(url, headers=headers)
+                print("Received response +92 from "+ url)
                 if response.status_code==200:
                     with open(base_path+'H\\'+weight+'\\P16\\'+counter_url+'.pdf', 'wb') as f:
                         f.write(response.content)
@@ -121,7 +143,9 @@ for weight in men_weight_array:
             if counter_quarters!=5:
                 counter_url= "0"+str(counter_quarters)
                 url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------QFNL00'+ counter_url+"00--.pdf"
+                print("Sending request +92")
                 response=requests.get(url, headers=headers)
+                print("Received response +92 from "+ url)
                 if response.status_code==200:
                     with open(base_path+'H\\'+weight+'\\Q\\'+counter_url+'.pdf', 'wb') as f:
                         f.write(response.content)
@@ -131,25 +155,31 @@ for weight in men_weight_array:
             if counter_semi!=3:
                 counter_url= "0"+str(counter_semi)
                 url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------SFNL00'+ counter_url+"00--.pdf"
+                print("Sending request +92")
                 response=requests.get(url, headers=headers)
+                print("Received response +92 from "+ url)
                 if response.status_code==200:
                     with open(base_path+'H\\'+weight+'\\SF\\'+counter_url+'.pdf', 'wb') as f:
                         f.write(response.content)
                 counter_semi+=1
         #FINALS #################################
         url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C73_BOXM'+weight+'KG-------------FNL-000100--.pdf'
+        print("Sending request +92")
         response=requests.get(url, headers=headers)
+        print("Received response +92 from "+ url)
         with open(base_path+'H\\'+weight+'\\F\\01.pdf', 'wb') as f:
             f.write(response.content)
         # ENTRY LIST ############################
         url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXM'+weight+'KG-------------------------.pdf'
+        print("Sending request +92")
         response=requests.get(url, headers=headers)
+        print("Received response +92 from "+ url)
         with open(base_path+'H\\'+weight+'\\Entry_list\\Entry_list.pdf', 'wb') as f:
             f.write(response.content)
 
 ############################################################### WOMEN ################################################################################
 
-for weight in women_weight_array:
+"""for weight in women_weight_array:
     counter_32=1
     counter_16=1
     counter_quarters=1
@@ -206,4 +236,4 @@ for weight in women_weight_array:
     url='https://results.european-games.org/pdf/EG2023/BOX/EG2023_BOX_C32C1_BOXW'+weight+'KG--------------------------.pdf'
     response=requests.get(url, headers=headers)
     with open(base_path+'M\\'+weight+'\\Entry_list\\Entry_list.pdf', 'wb') as f:
-        f.write(response.content)
+        f.write(response.content)"""
