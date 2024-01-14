@@ -18,12 +18,13 @@ cursor = conn.cursor()
 
 dictionary_persona={"name" :"",
                     "nationality":"",
-                    "date_birth":"",
+                    "birth_date":"",
                     "weight":"",
                     "gender":"",
                     "role":""}
 
 dictionary_match={
+                "phase":"",
                 "id_boxer_red":"",
                 "id_boxer_blue":"",
                 "id_referee":"",
@@ -54,18 +55,25 @@ list_points=[]
 
 # FUNCTIONS TO FILL THE DICTIONARIES
 
-def fill_dictionary_persona(name, nationality, date_birth, weight, gender, role, dictionary):
+def fill_dictionary_persona(name, nationality, birth_date, weight, gender, role, dictionary):
     dictionary["name"]=name
     dictionary["nationality"]=nationality
-    dictionary["birth_date"]=date_birth
+    dictionary["birth_date"]=birth_date
     dictionary["weight"]=weight
     dictionary["gender"]=gender
     dictionary["role"]=role
+    exist=False
+    
+    for dict in list_persona:
+        if dict['name']== name and dict['weight']== weight and dict['role']==role: # and (dict['role']=='judge' or dict['role']=='referee'):
+            exist=True
 
-    if dictionary not in list_persona:
+    if exist==False:
         list_persona.append(dictionary.copy())
 
-def fill_dictionary_match(red_boxer, blue_boxer, referee, judge_1, judge_2, judge_3, judge_4, judge_5, winner_match, result, decision, dictionary):
+
+def fill_dictionary_match(phase, red_boxer, blue_boxer, referee, judge_1, judge_2, judge_3, judge_4, judge_5, winner_match, result, decision, dictionary):
+    dictionary["phase"]=phase
     dictionary["id_boxer_red"]=red_boxer
     dictionary["id_boxer_blue"]=blue_boxer       
     dictionary["id_referee"]=referee       
@@ -173,9 +181,19 @@ def birth_year(boxer,text):
     return(int(year))
 
 def weight_092(boxer,text):
-    boxer_weight=re.search(rf"{re.escape(boxer)}\n(.+?)\n(.+?)\n", text)
-    weight=boxer_weight.group(1)
-    kg=weight.split('\\')[1]
+    lines = text.split("\n")
+
+    j = None
+    for i, line in enumerate(lines):
+        if re.search(re.escape(boxer), line):
+            j = i  
+            break
+
+    weight_to_obtain=lines[j+2].strip()
+    kg=weight_to_obtain.split()[0]
+    """boxer_weight=re.search(rf"({re.escape(boxer)}.*(?:\n.+)+)", text)
+    weight_to_obtain=boxer_weight.group(1)
+    kg=weight_to_obtain.split('\\')[1]"""
     return(float(kg))
 
 def open_and_read_file_Entry_list(file_path):
@@ -212,7 +230,7 @@ def open_and_read_file_Entry_list(file_path):
 pdf_start='C:\\Users\\Mirosh\\Desktop\\Data\\'
 
 # List of weights to navigate through
-gender_boxers = ['M', 'H']
+gender_boxers = ['H','M']
 #gender_boxers=['H2']
 
 for gender in gender_boxers:
@@ -233,16 +251,15 @@ for gender in gender_boxers:
 
                 text_dates=open_and_read_file_Entry_list(file_path)
 
+                
 
-                if weight=='092':
+
+                if weight=='O92':
                     
                     file_path_2 = os.path.join(weight_path, boxing_phase, "Entry_list_weight.pdf")
 
                     text_weight=open_and_read_file_Entry_list(file_path_2)
-
-
-                
-
+                    
             else:
                 
                 matches_path = os.path.join(weight_path, boxing_phase)
@@ -257,8 +274,6 @@ for gender in gender_boxers:
                     # Read tables from the PDF
                     tables = tabula.read_pdf(file_path, pages='all')
 
-                    #print(len(tables[0]))
-                    #print(tables)
 
                     ##################################################################################################################
                     ##############################         DATA OF THE PARTICIPANTS OF THE MATCH         #############################
@@ -267,6 +282,7 @@ for gender in gender_boxers:
 
                     try:
                         pdf_document = fitz.open(file_path)
+                        print(file_path)
                         
                         # Process the PDF (e.g., extract text)
                         for page_num in range(pdf_document.page_count):
@@ -275,28 +291,25 @@ for gender in gender_boxers:
                             text = page.get_text("text")
                             lines=text.split('\n')  # necessary to obtain some of the text
                             
-                            #print(f"Text from {number_of_match} - Page {page_num + 1}:{text}")
 
                             # REGULAR EXPRESSIONS IN THE FOLLOWING LINES: ################
                             
 
                             gender_text= re.search(r"(MEN|WOMEN)'S", text)
-                            if weight=='092':
-                                weight_text=re.search()
-                                weight_of_boxer_blue=weight_092(blue_boxer,text_weight)
-                                weight_of_boxer_red=weight_092(red_boxer,text_weight)
-                                weight_list=[weight_of_boxer_red, weight_of_boxer_blue, None, None, None, None, None, None]
-                            else:
-                                weight_text= re.search(r"(\d+)kg", text)
-                                weight_of_boxer=weight_text.group(1)
-                                weight_list=[float(weight_of_boxer), float(weight_of_boxer), None, None, None, None, None, None]
-                            phase= lines[2].strip()
+                            
 
                             red_boxer= lines[19].strip()
                             red_boxer_nationality=lines[20].strip()
 
                             blue_boxer= lines[21].strip()
                             blue_boxer_nationality=lines[22].strip()
+
+                            if weight=='O92':
+                                weight_of_boxer_blue=weight_092(blue_boxer,text_weight)
+                                weight_of_boxer_red=weight_092(red_boxer,text_weight)
+                                weight_list=[weight_of_boxer_red, weight_of_boxer_blue, None, None, None, None, None, None]
+                            else:
+                                weight_list=[float(weight), float(weight), None, None, None, None, None, None]
 
                             winner= lines[23].strip()
 
@@ -347,7 +360,7 @@ for gender in gender_boxers:
                     name_list=[red_boxer, blue_boxer, referee, judge_1, judge_2, judge_3, judge_4, judge_5]
                     nationality_list=[red_boxer_nationality, blue_boxer_nationality, referee_nationality, nationality_judge_1, nationality_judge_2, nationality_judge_3, nationality_judge_4, nationality_judge_5]
 
-                    print(file_path)
+                    
                     red_boxer_year=birth_year(red_boxer, text_dates)
                     blue_boxer_year=birth_year(blue_boxer, text_dates)
 
@@ -360,7 +373,7 @@ for gender in gender_boxers:
 
                     # UPDATE THE DICTIONARY MATCH #######################################################
 
-                    fill_dictionary_match(red_boxer, blue_boxer, referee, judge_1, judge_2, judge_3, judge_4, judge_5, winner_match, result, decision, dictionary_match)
+                    fill_dictionary_match(boxing_phase, red_boxer, blue_boxer, referee, judge_1, judge_2, judge_3, judge_4, judge_5, winner_match, result, decision, dictionary_match)
 
                     # UPDATE THE DICTIONARY POINTS #######################################################
 
@@ -378,8 +391,8 @@ for gender in gender_boxers:
 
 
 cursor.executemany("""
-    INSERT INTO persona (name,birth_date,weight,gender,role)
-    VALUES (%(name)s, %(birth_date)s, %(weight)s, %(gender)s, %(role)s)""", list_persona)
+    INSERT INTO persona (name,nationality,birth_date,weight,gender,role)
+    VALUES (%(name)s, %(nationality)s, %(birth_date)s, %(weight)s, %(gender)s, %(role)s)""", list_persona)
 conn.commit()       
 
 list_names=[]
@@ -431,8 +444,8 @@ for dictionary in list_match:
     dictionary["id_winner"]=id_winner
 
 cursor.executemany("""
-    INSERT INTO matches (id_boxer_red,id_boxer_blue,id_referee,id_judge_1,id_judge_2,id_judge_3,id_judge_4,id_judge_5,id_winner,result,decision)
-    VALUES (%(id_boxer_red)s, %(id_boxer_blue)s, 
+    INSERT INTO matches (phase,id_boxer_red,id_boxer_blue,id_referee,id_judge_1,id_judge_2,id_judge_3,id_judge_4,id_judge_5,id_winner,result,decision)
+    VALUES (%(phase)s, %(id_boxer_red)s, %(id_boxer_blue)s, 
     %(id_referee)s, %(id_judge_1)s, %(id_judge_2)s,
     %(id_judge_3)s, %(id_judge_4)s, 
     %(id_judge_5)s, %(id_winner)s, %(result)s, %(decision)s)""", list_match)
@@ -472,3 +485,4 @@ conn.commit()
 
 cursor.close()
 conn.close()
+
