@@ -201,7 +201,6 @@ def open_and_read_file_Entry_list(file_path):
         pdf_document = fitz.open(file_path)
         
         
-        # Process the PDF (e.g., extract text)
         for page_num in range(pdf_document.page_count):
 
             page = pdf_document.load_page(page_num)
@@ -284,7 +283,6 @@ for gender in gender_boxers:
                         pdf_document = fitz.open(file_path)
                         print(file_path)
                         
-                        # Process the PDF (e.g., extract text)
                         for page_num in range(pdf_document.page_count):
 
                             page = pdf_document.load_page(page_num)
@@ -348,7 +346,7 @@ for gender in gender_boxers:
                             judge_4=judge_4_text.group(1)
                             judge_5=judge_5_text.group(1)
 
-                        pdf_document.close()  # Close the PDF file
+                        pdf_document.close()  
 
                     except Exception as e:
 
